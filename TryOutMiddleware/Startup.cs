@@ -21,43 +21,45 @@ namespace TryOutMiddleware
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseStaticFiles();
-            if (env.IsDevelopment())
+           // app.UseStaticFiles();
+           if(env.IsDevelopment() || env.IsStaging())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Use(async (context, next) =>
-            {
-                await context.Response.WriteAsync("\nhello from 1st middleware ");//hello from 1st middleware
-                await next();
-                await context.Response.WriteAsync("\nhello again from 1st middleware");
-            });
-            app.Use(async (context, next) =>
-            {
+            app.Run(context => { throw new Exception("error"); });
 
-                await context.Response.WriteAsync("\nhello from 2nd middleware ");//hello from 2nd middleware
-                await next();
-            });
-            app.Use(async (context, next) =>
-            {
+            //app.Use(async (context, next) =>
+            //{
+            //    await context.Response.WriteAsync("\nhello from 1st middleware ");//hello from 1st middleware
+            //    await next();
+            //    await context.Response.WriteAsync("\nhello again from 1st middleware");
+            //});
+            //app.Use(async (context, next) =>
+            //{
 
-                await context.Response.WriteAsync("\nhello from 3nd middleware ");//hello from 2nd middleware
-                await next();
-            });
+            //    await context.Response.WriteAsync("\nhello from 2nd middleware ");//hello from 2nd middleware
+            //    await next();
+            //});
+            //app.Use(async (context, next) =>
+            //{
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("\nhello from 1st middleware ");//hello from 1st middleware
+            //    await context.Response.WriteAsync("\nhello from 3nd middleware ");//hello from 2nd middleware
+            //    await next();
+            //});
 
-                await context.Response.WriteAsync("\nhello again from 1st middleware");//hello again from 1st middleware
-            });
-            app.Run(async (context) =>
-            {
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("\nhello from 1st middleware ");//hello from 1st middleware
 
-                await context.Response.WriteAsync("\nhello from 2nd middleware ");//will not get call.
+            //    await context.Response.WriteAsync("\nhello again from 1st middleware");//hello again from 1st middleware
+            //});
+            //app.Run(async (context) =>
+            //{
+
+            //    await context.Response.WriteAsync("\nhello from 2nd middleware ");//will not get call.
                 
-            });
+            //});
            
 
 

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Tabletest.Models.Employee>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="w-75" border="2" align="center">
+        <tr>
+            <th>EmpId</th>
+            <th>Name</th>
+            <th>Cname</th>
+            <th>Salary</th>
+            <th>City</th>
+        </tr>
+        @foreach(var i in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => i.EmpId)</td>
+                    <td>@Html.DisplayFor(modelItem => i.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => i.Cname)</td>
+                    <td>@Html.DisplayFor(modelItem => i.Salary)</td>
+                    <td>@Html.DisplayFor(modelItem =>i.City)</td>
+                </tr>
+            }
+
+
+    </table>
+</div>
