@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 
 namespace MVCproject.Models
 {
-    interface IStudentRepository
+   public interface IStudentRepository
     {
         public List<Student> GetStudents();
 
         public Student GetStudentById(int id);
+
+        public Boolean CreateStudent(Student student);
+            
     }
 }

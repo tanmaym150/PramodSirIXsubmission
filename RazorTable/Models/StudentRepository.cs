@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MVCproject.Models
@@ -21,6 +22,20 @@ namespace MVCproject.Models
                 new Student(){StudId=6,Name="NIKET",Branch="CS",City="pune",Age=22}
 
             };
+        }
+
+        public bool CreateStudent(Student student)
+        {
+            try
+            {
+                int maxId = students.Select(s => s.StudId).Max();
+                student.StudId = maxId + 1;
+                students.Add(student);
+            }catch(Exception E)
+            {
+                return false;
+            }
+            return true;
         }
 
         public Student GetStudentById(int id)

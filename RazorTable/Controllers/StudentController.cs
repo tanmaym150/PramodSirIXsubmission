@@ -7,13 +7,23 @@ using System.Threading.Tasks;
 using MVCproject.Models;
 
 namespace MVCproject.Controllers
-{
+{   
+    public class RepositoryInstance
+    {
+        public static IStudentRepository repository;
+
+        static RepositoryInstance()
+        {
+            repository = new StudentRepository();
+        }
+    }
     public class StudentController : Controller
     {
         private IStudentRepository repository;
+        
         public StudentController()
         {
-            repository = new StudentRepository();
+            repository = RepositoryInstance.repository;
         }
         // GET: StudentController
 
@@ -38,10 +48,11 @@ namespace MVCproject.Controllers
         // POST: StudentController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Student student)
         {
             try
             {
+                repository.CreateStudent(student);
                 return RedirectToAction(nameof(Index));
             }
             catch
