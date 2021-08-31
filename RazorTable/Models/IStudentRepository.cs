@@ -13,6 +13,7 @@ namespace MVCproject.Models
 
         public bool CreateStudent(Student student);
         public bool UpdateStudent(Student student);
+        public bool DeleteStudent(int id);
 
             
     }

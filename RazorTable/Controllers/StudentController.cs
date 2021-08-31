@@ -88,16 +88,17 @@ namespace MVCproject.Controllers
         // GET: StudentController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            return View(_repository.GetStudentById(id));
         }
 
         // POST: StudentController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Student student)
         {
             try
             {
+                _repository.DeleteStudent(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

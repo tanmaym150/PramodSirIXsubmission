@@ -41,6 +41,20 @@ namespace MVCproject.Models
             return true;
         }
 
+        public bool DeleteStudent(int id)
+        {
+            try
+            {
+                Student s = students.FirstOrDefault(s => s.StudId == id);
+                students.Remove(s);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public Student GetStudentById(int id)
         {
             return students.FirstOrDefault(s => s.StudId == id);
