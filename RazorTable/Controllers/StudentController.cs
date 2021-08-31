@@ -19,24 +19,26 @@ namespace MVCproject.Controllers
     }
     public class StudentController : Controller
     {
-        private IStudentRepository repository;
+        private readonly IStudentRepository _repository = null;
+
+      
         
-        public StudentController()
+        public StudentController(IStudentRepository repository)
         {
-            repository = RepositoryInstance.repository;
+            _repository = repository;
         }
         // GET: StudentController
 
         public ActionResult Index()
         {
 
-            return View(repository.GetStudents());
+            return View(_repository.GetStudents());
         }
 
         // GET: StudentController/Details/5
         public ActionResult Details(int id)
         {
-            return View(repository.GetStudentById(id));
+            return View(_repository.GetStudentById(id));
         }
 
         // GET: StudentController/Create
@@ -52,7 +54,7 @@ namespace MVCproject.Controllers
         {
             try
             {
-                repository.CreateStudent(student);
+                _repository.CreateStudent(student);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -64,16 +66,17 @@ namespace MVCproject.Controllers
         // GET: StudentController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            return View(_repository.GetStudentById(id));
         }
 
         // POST: StudentController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Student student)
         {
             try
             {
+                _repository.UpdateStudent(student);
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -7,13 +7,8 @@ namespace MVCproject.Models
 
     public class StudentRepository:IStudentRepository
     {
-        private List<Student> students;
-        
 
-        public StudentRepository()
-        {
-            students = new List<Student>
-            {
+        private List<Student> students = new List<Student>()   {
                 new Student(){StudId=1,Name="TANMAY",Branch="CS",City="satara",Age=22},
                 new Student(){StudId=2,Name="VINAYAK",Branch="CS",City="pune",Age=22},
                 new Student(){StudId=3,Name="ATHARVA",Branch="CS",City="pune",Age=22},
@@ -22,6 +17,14 @@ namespace MVCproject.Models
                 new Student(){StudId=6,Name="NIKET",Branch="CS",City="pune",Age=22}
 
             };
+
+
+
+
+        public StudentRepository()
+        {
+            
+          
         }
 
         public bool CreateStudent(Student student)
@@ -47,6 +50,28 @@ namespace MVCproject.Models
         {
             return students;
             
+        }
+
+        public bool UpdateStudent(Student student)
+        {
+            try
+            {
+                Student s = students.FirstOrDefault(stu => stu.StudId == student.StudId);
+              
+                s.StudId = student.StudId;
+                s.Name = student.Name;
+                s.Branch = student.Branch;
+                s.City = student.City;
+                s.Age = student.Age;
+
+
+            }
+            catch (Exception)
+            {
+                return false;
+
+            }
+            return false;
         }
     }
 }

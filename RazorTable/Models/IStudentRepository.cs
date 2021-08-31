@@ -11,7 +11,9 @@ namespace MVCproject.Models
 
         public Student GetStudentById(int id);
 
-        public Boolean CreateStudent(Student student);
+        public bool CreateStudent(Student student);
+        public bool UpdateStudent(Student student);
+
             
     }
 }
