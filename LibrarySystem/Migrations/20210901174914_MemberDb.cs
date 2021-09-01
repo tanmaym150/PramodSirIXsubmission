@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LibrarySystem.Data.Migrations
+namespace LibrarySystem.Migrations
 {
-    public partial class Create : Migration
+    public partial class MemberDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

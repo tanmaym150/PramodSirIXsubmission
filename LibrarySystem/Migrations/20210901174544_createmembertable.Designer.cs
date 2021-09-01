@@ -3,14 +3,16 @@ using LibrarySystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LibrarySystem.Migrations
 {
     [DbContext(typeof(MemberDbContext))]
-    partial class MemberDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210901174544_createmembertable")]
+    partial class createmembertable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
