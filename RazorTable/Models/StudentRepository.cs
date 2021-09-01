@@ -46,6 +46,10 @@ namespace MVCproject.Models
             try
             {
                 Student s = students.FirstOrDefault(s => s.StudId == id);
+             
+
+
+
                 students.Remove(s);
             }
             catch (Exception)
@@ -57,7 +61,17 @@ namespace MVCproject.Models
 
         public Student GetStudentById(int id)
         {
-            return students.FirstOrDefault(s => s.StudId == id);
+             return students.FirstOrDefault(s => s.StudId == id);
+            //FirstOrDefault returns the first element of the sequence that satisfies a condition or a default value if no such element found
+
+            // return students.LastOrDefault(s => s.StudId == id);
+            //LastOrDefault returns the last element of the sequence.  
+
+           // return students.Last(s => s.StudId == id);
+           //Last returns the last element of the sequence.
+
+
+
         }
 
         public List<Student> GetStudents()
