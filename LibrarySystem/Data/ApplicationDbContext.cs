@@ -13,4 +13,12 @@ namespace LibrarySystem.Data
         {
         }
     }
+    public class MemberDbContext : DbContext
+    {
+        public MemberDbContext(DbContextOptions<MemberDbContext> options)
+            : base(options)
+        {
+        }
+    }
+
 }
