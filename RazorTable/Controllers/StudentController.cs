@@ -20,12 +20,17 @@ namespace MVCproject.Controllers
     public class StudentController : Controller
     {
         private readonly IStudentRepository _repository = null;
+        private readonly IStudentRepository _repository1 = null;
 
-      
-        
-        public StudentController(IStudentRepository repository)
+
+
+
+        public StudentController(IStudentRepository repository,IStudentRepository repository1)
         {
+             
             _repository = repository;
+            _repository1 = repository1;
+           
         }
         // GET: StudentController
 

@@ -7,6 +7,9 @@ namespace MVCproject.Models
 
     public class StudentRepository:IStudentRepository
     {
+       
+     
+
 
         private List<Student> students = new List<Student>()   {
                 new Student(){StudId=1,Name="TANMAY",Branch="CS",City="satara",Age=22},
@@ -20,12 +23,17 @@ namespace MVCproject.Models
 
 
 
-
         public StudentRepository()
         {
-            
-          
+            Console.WriteLine("Object Created.");
+
         }
+        
+
+
+
+
+
 
         public bool CreateStudent(Student student)
         {

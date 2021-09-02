@@ -25,15 +25,15 @@ namespace RazorTable
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<IStudentRepository, StudentRepository>();
+           // services.AddSingleton<IStudentRepository, StudentRepository>();
             //A single instance is used by all the http request
 
             //AddScoped
-            //services.AddScoped<IStudentRepository, StudentRepository>();
+           //services.AddScoped<IStudentRepository, StudentRepository>();
             //same instance within the scope but,we get instance across different http request
 
             //AddTransient
-           // services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
                 //Every time we ask for the instance we get new instance
         }
 
