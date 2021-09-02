@@ -28,6 +28,8 @@ namespace Tabletest.Controllers
 
         public IActionResult Index()
         {
+            ViewData["employeees"] = employees;
+            ViewBag.TotalEmployees = employees.Count();
             return View(employees);
         }
 
@@ -41,5 +43,8 @@ namespace Tabletest.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        
+        }
     }
-}
+
+

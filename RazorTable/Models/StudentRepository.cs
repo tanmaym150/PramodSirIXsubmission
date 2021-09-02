@@ -20,7 +20,7 @@ namespace MVCproject.Models
                 new Student(){StudId=6,Name="NIKET",Branch="CS",City="pune",Age=22}
 
             };
-
+         
 
 
         public StudentRepository()

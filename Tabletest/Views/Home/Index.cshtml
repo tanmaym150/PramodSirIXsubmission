@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<Tabletest.Models.Employee>
 @{
     ViewData["Title"] = "Home Page";
+   // ViewBag["Title"] = "Home Page";
 }
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -14,17 +16,30 @@
             <th>Salary</th>
             <th>City</th>
         </tr>
-        @foreach(var i in Model)
+        @foreach (var i in Model)
+        {
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => i.EmpId)</td>
+                <td>@Html.DisplayFor(modelItem => i.Name)</td>
+                <td>@Html.DisplayFor(modelItem => i.Cname)</td>
+                <td>@Html.DisplayFor(modelItem => i.Salary)</td>
+                <td>@Html.DisplayFor(modelItem => i.City)</td>
+            </tr>
+        }
+        <ul>
+        @foreach(var e in ViewData["employeees"] as IList<Employee>)
             {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => i.EmpId)</td>
-                    <td>@Html.DisplayFor(modelItem => i.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => i.Cname)</td>
-                    <td>@Html.DisplayFor(modelItem => i.Salary)</td>
-                    <td>@Html.DisplayFor(modelItem =>i.City)</td>
-                </tr>
+                <li>
+                    @e.Cname
+                </li>
             }
 
+         </ul>
+
+        <label>Total Employees:</label>
+        @ViewBag.TotalEmployees
 
     </table>
+    
 </div>
