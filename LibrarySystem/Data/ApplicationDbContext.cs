@@ -13,6 +13,8 @@ namespace LibrarySystem.Data
             : base(options)
         {
         }
+
+        
     }
     public class MemberDbContext : DbContext
     {
@@ -21,6 +23,9 @@ namespace LibrarySystem.Data
         {
         }
         public DbSet<LibrarySystem.Data.Model.Member> Member { get; set; }
+        public DbSet<LibrarySystem.Data.Model.Librarian> Librarian { get; set; }
+
     }
+
 
 }

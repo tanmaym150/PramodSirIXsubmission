@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.Data;
 using LibrarySystem.Data.Model;
+using LibrarySystem.ViewModel;
 
 namespace LibrarySystem.Controllers
 {
@@ -14,9 +15,13 @@ namespace LibrarySystem.Controllers
     {
         private readonly MemberDbContext _context;
 
+        
+
+
         public MembersController(MemberDbContext context)
         {
             _context = context;
+            
         }
 
         // GET: Members
@@ -35,12 +40,17 @@ namespace LibrarySystem.Controllers
 
             var member = await _context.Member
                 .FirstOrDefaultAsync(m => m.UserId == id);
-            if (member == null)
+            var librarian = await _context.Librarian
+                .FirstOrDefaultAsync(m => m.LibId == id);
+
+            MemberLibrarianViewModel memberLibrarianViewModel = new MemberLibrarianViewModel() { Member=member,Librarian=librarian};
+           
+            if ((member == null))
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(memberLibrarianViewModel);
         }
 
         // GET: Members/Create
@@ -54,11 +64,16 @@ namespace LibrarySystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Gender,ContactNumber,Email,password")] Member member)
+        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Gender,ContactNumber,Email,password")] Member member,[Bind("LibId,CollegeName")] Librarian librarian )
         {
             if (ModelState.IsValid)
             {
-                _context.Add(member);
+
+                _context.Librarian.Add(librarian);
+                
+                
+                _context.Member.Add(member);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -86,7 +101,7 @@ namespace LibrarySystem.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Gender,ContactNumber,Email,password")] Member member)
+        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Gender,ContactNumber,Email,password")] Member member, [Bind("CollegeName")] Librarian librarian)
         {
             if (id != member.UserId)
             {
@@ -98,6 +113,7 @@ namespace LibrarySystem.Controllers
                 try
                 {
                     _context.Update(member);
+                    _context.Update(librarian);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,12 +142,15 @@ namespace LibrarySystem.Controllers
 
             var member = await _context.Member
                 .FirstOrDefaultAsync(m => m.UserId == id);
+            var libraian = await _context.Librarian
+                .FirstOrDefaultAsync(m => m.LibId == id);
+            MemberLibrarianViewModel memberLibrarianViewModel = new MemberLibrarianViewModel() { Member=member,Librarian=libraian};
             if (member == null)
             {
                 return NotFound();
             }
 
-            return View(member);
+            return View(memberLibrarianViewModel);
         }
 
         // POST: Members/Delete/5
@@ -141,6 +160,8 @@ namespace LibrarySystem.Controllers
         {
             var member = await _context.Member.FindAsync(id);
             _context.Member.Remove(member);
+            var librarian = await _context.Librarian.FindAsync(id);
+            _context.Librarian.Remove(librarian);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

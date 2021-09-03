@@ -1,11 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace LibrarySystem.Migrations
+namespace LibrarySystem.Migrations.MemberDb
 {
-    public partial class createmembertable : Migration
+    public partial class MemberDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Librarian",
+                columns: table => new
+                {
+                    LibId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CollegeName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Librarian", x => x.LibId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Member",
                 columns: table => new
@@ -27,6 +40,9 @@ namespace LibrarySystem.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Librarian");
+
             migrationBuilder.DropTable(
                 name: "Member");
         }

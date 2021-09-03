@@ -35,6 +35,7 @@ namespace LibrarySystem
             services.AddDbContext<MemberDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
+           
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
