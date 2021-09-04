@@ -42,7 +42,7 @@ namespace MVCproject.Models
                 int maxId = students.Select(s => s.StudId).Max();
                 student.StudId = maxId + 1;
                 students.Add(student);
-            }catch(Exception E)
+            }catch(Exception )
             {
                 return false;
             }

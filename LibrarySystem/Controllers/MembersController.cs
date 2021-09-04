@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LibrarySystem.Data;
-using LibrarySystem.Data.Model;
+using LibrarySystem.DAL.Data;
+using LibrarySystem.DAL.Data.Model;
 using LibrarySystem.ViewModel;
 
 namespace LibrarySystem.Controllers
