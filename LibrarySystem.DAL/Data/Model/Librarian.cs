@@ -8,8 +8,11 @@ namespace LibrarySystem.DAL.Data.Model
 {
     public class Librarian
     {
-        public string CollegeName { get; set; }
         [Key]
         public int LibId { get; set; }
+        //  public int UserId { get; set; }
+        public string CollegeName { get; set; }
+
+
     }
 }

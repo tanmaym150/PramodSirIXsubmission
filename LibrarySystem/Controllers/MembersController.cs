@@ -8,41 +8,53 @@ using Microsoft.EntityFrameworkCore;
 using LibrarySystem.DAL.Data;
 using LibrarySystem.DAL.Data.Model;
 using LibrarySystem.ViewModel;
+using LibrarySystem.Services.Services;
 
 namespace LibrarySystem.Controllers
 {
+    
     public class MembersController : Controller
     {
         private readonly MemberDbContext _context;
+        private readonly IMemberService _memberService;
+        private readonly ILibrarianService _librarianService;
+
+
+        
 
         
 
 
-        public MembersController(MemberDbContext context)
+        public MembersController(MemberDbContext context,IMemberService memberService,ILibrarianService librarianService)
         {
             _context = context;
+            _memberService = memberService;
+            _librarianService = librarianService;
+            
             
         }
 
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Member.ToListAsync());
+            return View(await _memberService.GetAllMembers() );
         }
 
         // GET: Members/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
 
-            var member = await _context.Member
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            var librarian = await _context.Librarian
-                .FirstOrDefaultAsync(m => m.LibId == id);
+            //var member = await _context.Member
+            //    .FirstOrDefaultAsync(m => m.UserId == id);
+            //var librarian = await _context.Librarian
+            //    .FirstOrDefaultAsync(m => m.LibId == id);
 
+            var member = await _memberService.GetMemberById( id);
+            var librarian = await _librarianService.GetLibId(id);
             MemberLibrarianViewModel memberLibrarianViewModel = new MemberLibrarianViewModel() { Member=member,Librarian=librarian};
            
             if ((member == null))
@@ -70,11 +82,15 @@ namespace LibrarySystem.Controllers
             {
 
                 _context.Librarian.Add(librarian);
-                
-                
-                _context.Member.Add(member);
 
-                await _context.SaveChangesAsync();
+
+
+                 _context.Member.Add(member);
+                var memberRes = await _memberService.CreateMember(member);
+              
+                
+
+               // await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(member);
@@ -83,7 +99,7 @@ namespace LibrarySystem.Controllers
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
+            if (id == 0)
             {
                 return NotFound();
             }
@@ -112,9 +128,11 @@ namespace LibrarySystem.Controllers
             {
                 try
                 {
-                    _context.Update(member);
-                    _context.Update(librarian);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(member);
+                    //_context.Update(librarian);
+                    //await _context.SaveChangesAsync();
+                    var memberRes = await _memberService.UpdateMember(member);
+                
                 }
                 catch (DbUpdateConcurrencyException)
                 {

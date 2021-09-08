@@ -14,6 +14,8 @@ namespace Tabletest.Controllers
         private readonly ILogger<HomeController> _logger;
         List<Employee> employees;
 
+        public object ConfigurationManager { get; private set; }
+
         public HomeController(ILogger<HomeController> logger)
         {
             employees = new List<Employee>();
@@ -28,9 +30,12 @@ namespace Tabletest.Controllers
 
         public IActionResult Index()
         {
+
+
             ViewData["employeees"] = employees;
             ViewBag.TotalEmployees = employees.Count();
             return View(employees);
+
         }
 
         public IActionResult Privacy()

@@ -1,4 +1,5 @@
 using LibrarySystem.DAL.Data;
+using LibrarySystem.Services.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace LibrarySystem
 {
@@ -35,7 +37,8 @@ namespace LibrarySystem
             services.AddDbContext<MemberDbContext>(options =>
                options.UseSqlServer(
                    Configuration.GetConnectionString("DefaultConnection")));
-           
+            services.AddSingleton<IMemberService, MemberService>();
+            services.AddSingleton<ILibrarianService, LibrarianService>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
