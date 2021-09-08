@@ -9,8 +9,8 @@ namespace LibrarySystem.ViewModel
 {
     public class MemberLibrarianViewModel
     {
-       public Member Member { get; set; } 
-        public Librarian Librarian { get; set; } 
+       //public Member Member { get; set; } 
+       // public Librarian Librarian { get; set; } 
 
         //librarian model
         //public string CollegeName { get; set; }

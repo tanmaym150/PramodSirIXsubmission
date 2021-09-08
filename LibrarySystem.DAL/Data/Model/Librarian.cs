@@ -12,7 +12,5 @@ namespace LibrarySystem.DAL.Data.Model
         public int LibId { get; set; }
         //  public int UserId { get; set; }
         public string CollegeName { get; set; }
-
-
     }
 }

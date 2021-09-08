@@ -16,18 +16,20 @@ namespace LibrarySystem.DAL.Data
 
         
     }
-    public class MemberDbContext : DbContext
+    public class UserDbContext : DbContext
     {
-        public MemberDbContext()
+        public UserDbContext()
         {
 
         }
-        public MemberDbContext(DbContextOptions<MemberDbContext> options)
+        public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)
         {
         }
-        public DbSet<LibrarySystem.DAL.Data.Model.Member> Member { get; set; }
-        public DbSet<LibrarySystem.DAL.Data.Model.Librarian> Librarian { get; set; }
+        //public DbSet<LibrarySystem.DAL.Data.Model.Member> Member { get; set; }
+        //public DbSet<LibrarySystem.DAL.Data.Model.Librarian> Librarian { get; set; }
+        //public DbSet<LibrarySystem.DAL.Data.Model.User> User { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
