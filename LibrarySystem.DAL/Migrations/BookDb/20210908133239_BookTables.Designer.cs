@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LibrarySystem.DAL.Migrations.UserDb
+namespace LibrarySystem.DAL.Migrations.BookDb
 {
-    [DbContext(typeof(UserDbContext))]
-    [Migration("20210908090006_UserTables")]
-    partial class UserTables
+    [DbContext(typeof(BookDbContext))]
+    [Migration("20210908133239_BookTables")]
+    partial class BookTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,28 +20,25 @@ namespace LibrarySystem.DAL.Migrations.UserDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("LibrarySystem.DAL.Data.Model.User", b =>
+            modelBuilder.Entity("LibrarySystem.DAL.Data.Model.Books", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Email")
+                    b.Property<string>("BookAuthor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FirstName")
+                    b.Property<string>("BookGenre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
+                    b.Property<string>("BookName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("BookId");
 
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
+                    b.ToTable("Books");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,8 +14,20 @@ namespace LibrarySystem.DAL.Data
         {
         }
 
-        
+
     }
+    public class BookDbContext : DbContext
+    {
+        public BookDbContext()
+    {
+
+    }
+    public BookDbContext(DbContextOptions<BookDbContext> options)
+        : base(options)
+    {
+    }
+    public DbSet<Books> Books { get; set; }
+
     public class UserDbContext : DbContext
     {
         public UserDbContext()
@@ -32,16 +44,17 @@ namespace LibrarySystem.DAL.Data
         public DbSet<User> Users { get; set; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
+            protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
+                if (!optionsBuilder.IsConfigured)
+                {
 
-                optionsBuilder.UseSqlServer("Server=.;Database=LibrarySystem;Trusted_Connection=True;MultipleActiveResultSets=true");
+                    optionsBuilder.UseSqlServer("Server=.;Database=LibrarySystem;Trusted_Connection=True;MultipleActiveResultSets=true");
+                }
             }
+
         }
 
+
     }
-
-
 }

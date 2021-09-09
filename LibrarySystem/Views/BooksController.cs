@@ -7,26 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.DAL.Data;
 using LibrarySystem.DAL.Data.Model;
-using static LibrarySystem.DAL.Data.BookDbContext;
 
 namespace LibrarySystem.Views
 {
-    public class UsersController : Controller
+    public class BooksController : Controller
     {
-        private readonly UserDbContext _context;
+        private readonly BookDbContext _context;
 
-        public UsersController(UserDbContext context)
+        public BooksController(BookDbContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Books.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +33,39 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var books = await _context.Books
+                .FirstOrDefaultAsync(m => m.BookId == id);
+            if (books == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(books);
         }
 
-        // GET: Users/Create
+        // GET: Books/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Books/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Email,Gender")] User user)
+        public async Task<IActionResult> Create([Bind("BookId,BookName,BookGenre,BookAuthor")] Books books)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(books);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(books);
         }
 
-        // GET: Users/Edit/5
+        // GET: Books/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +73,22 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var books = await _context.Books.FindAsync(id);
+            if (books == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(books);
         }
 
-        // POST: Users/Edit/5
+        // POST: Books/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Email,Gender")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookName,BookGenre,BookAuthor")] Books books)
         {
-            if (id != user.UserId)
+            if (id != books.BookId)
             {
                 return NotFound();
             }
@@ -98,12 +97,12 @@ namespace LibrarySystem.Views
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(books);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserId))
+                    if (!BooksExists(books.BookId))
                     {
                         return NotFound();
                     }
@@ -114,10 +113,10 @@ namespace LibrarySystem.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(books);
         }
 
-        // GET: Users/Delete/5
+        // GET: Books/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +124,30 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var books = await _context.Books
+                .FirstOrDefaultAsync(m => m.BookId == id);
+            if (books == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(books);
         }
 
-        // POST: Users/Delete/5
+        // POST: Books/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var books = await _context.Books.FindAsync(id);
+            _context.Books.Remove(books);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool BooksExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Books.Any(e => e.BookId == id);
         }
     }
 }
