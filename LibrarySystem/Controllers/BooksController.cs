@@ -12,9 +12,9 @@ namespace LibrarySystem.Views
 {
     public class BooksController : Controller
     {
-        private readonly BookDbContext _context;
+        private readonly UserDbContext _context;
 
-        public BooksController(BookDbContext context)
+        public BooksController(UserDbContext context)
         {
             _context = context;
         }
@@ -34,7 +34,7 @@ namespace LibrarySystem.Views
             }
 
             var books = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (books == null)
             {
                 return NotFound();
@@ -52,9 +52,9 @@ namespace LibrarySystem.Views
         // POST: Books/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPostAttribute]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookId,BookName,BookGenre,BookAuthor")] Books books)
+        public async Task<IActionResult> Create([Bind("BookName,BookGenre,BookAuthor")] Book books)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace LibrarySystem.Views
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookName,BookGenre,BookAuthor")] Books books)
+        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookName,BookGenre,BookAuthor")] Book books)
         {
-            if (id != books.BookId)
+            if (id != books.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace LibrarySystem.Views
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BooksExists(books.BookId))
+                    if (!BooksExists(books.Id))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace LibrarySystem.Views
             }
 
             var books = await _context.Books
-                .FirstOrDefaultAsync(m => m.BookId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (books == null)
             {
                 return NotFound();
@@ -147,7 +147,7 @@ namespace LibrarySystem.Views
 
         private bool BooksExists(int id)
         {
-            return _context.Books.Any(e => e.BookId == id);
+            return _context.Books.Any(e => e.Id == id);
         }
     }
 }

@@ -16,17 +16,8 @@ namespace LibrarySystem.DAL.Data
 
 
     }
-    public class BookDbContext : DbContext
-    {
-        public BookDbContext()
-    {
 
-    }
-    public BookDbContext(DbContextOptions<BookDbContext> options)
-        : base(options)
-    {
-    }
-    public DbSet<Books> Books { get; set; }
+    
 
     public class UserDbContext : DbContext
     {
@@ -38,10 +29,12 @@ namespace LibrarySystem.DAL.Data
             : base(options)
         {
         }
-        //public DbSet<LibrarySystem.DAL.Data.Model.Member> Member { get; set; }
-        //public DbSet<LibrarySystem.DAL.Data.Model.Librarian> Librarian { get; set; }
-        //public DbSet<LibrarySystem.DAL.Data.Model.User> User { get; set; }
-        public DbSet<User> Users { get; set; }
+            public DbSet<User> Users { get; set; }
+            public DbSet<Book> Books { get; set; }
+            public DbSet<Borrow> Borrows { get; set; }
+            //public DbSet<LibrarySystem.DAL.Data.Model.Member> Member { get; set; }
+            //public DbSet<LibrarySystem.DAL.Data.Model.Librarian> Librarian { get; set; }
+            //public DbSet<LibrarySystem.DAL.Data.Model.User> User { get; set; }
 
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -57,4 +50,4 @@ namespace LibrarySystem.DAL.Data
 
 
     }
-}
+

@@ -22,7 +22,7 @@ namespace Student
             {
                 new StudentInfo(){Id=1,Name="TANMAY",Age=21,Standard=10},
                 new StudentInfo(){Id=2,Name="VINAYAK",Age=22,Standard=12},
-                new StudentInfo(){Id=3,Name="ATHARVA",Age=23,Standard=10},
+                new StudentInfo(){Id=3,Name="ATHARVA",Age=23,Standard=13},
             };
             int count = 0;
             
@@ -48,6 +48,13 @@ namespace Student
                 Console.WriteLine(i.Id);
                 Console.WriteLine(i.Age);
                 Console.WriteLine(" ");
+            }
+
+            var res = students.Where(s => s.Standard > 11).Select(a => new { Name = a.Name, Id = a.Id }).OrderBy(o => o.Name);
+            foreach(var e in res)
+            {
+                Console.WriteLine(e.Name);
+                Console.WriteLine(e.Id);
             }
                 
             

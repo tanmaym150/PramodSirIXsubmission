@@ -7,26 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.DAL.Data;
 using LibrarySystem.DAL.Data.Model;
-using static LibrarySystem.DAL.Data.BookDbContext;
 
 namespace LibrarySystem.Views
 {
-    public class UsersController : Controller
+    public class BorrowsController : Controller
     {
         private readonly UserDbContext _context;
 
-        public UsersController(UserDbContext context)
+        public BorrowsController(UserDbContext context)
         {
             _context = context;
         }
 
-        // GET: Users
+        // GET: Borrows
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            var userDbContext = _context.Borrows.Include(b => b.Users).Include(b => b.Books);
+
+            return View(await userDbContext.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: Borrows/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,39 +35,47 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var borrow = await _context.Borrows
+                .Include(b => b.Users).Include(c=>c.Books)
+                .FirstOrDefaultAsync(m => m.ID == id);
+             
+            if (borrow == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(borrow);
         }
 
-        // GET: Users/Create
+        // GET: Borrows/Create
         public IActionResult Create()
         {
+          
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
+            ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookId");
             return View();
         }
 
-        // POST: Users/Create
+        // POST: Borrows/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Email,Gender")] User user)
+        public async Task<IActionResult> Create([Bind("ID,BookId,UserId,isReturned")] Borrow borrow)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(borrow);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName",borrow.UserId);
+            ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookName",borrow.BookId );
+
+            return View(borrow);
         }
 
-        // GET: Users/Edit/5
+        // GET: Borrows/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +83,24 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var borrow = await _context.Borrows.FindAsync(id);
+            if (borrow == null)
             {
                 return NotFound();
             }
-            return View(user);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", borrow.UserId);
+           
+            return View(borrow);
         }
 
-        // POST: Users/Edit/5
+        // POST: Borrows/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserId,FirstName,LastName,Email,Gender")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,BookId,UserId,isReturned")] Borrow borrow)
         {
-            if (id != user.UserId)
+            if (id != borrow.ID)
             {
                 return NotFound();
             }
@@ -98,12 +109,12 @@ namespace LibrarySystem.Views
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(borrow);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.UserId))
+                    if (!BorrowExists(borrow.ID))
                     {
                         return NotFound();
                     }
@@ -114,10 +125,12 @@ namespace LibrarySystem.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", borrow.UserId);
+           
+            return View(borrow);
         }
 
-        // GET: Users/Delete/5
+        // GET: Borrows/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,30 +138,31 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(m => m.UserId == id);
-            if (user == null)
+            var borrow = await _context.Borrows
+                .Include(b => b.Users)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (borrow == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(borrow);
         }
 
-        // POST: Users/Delete/5
+        // POST: Borrows/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            var borrow = await _context.Borrows.FindAsync(id);
+            _context.Borrows.Remove(borrow);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool BorrowExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Borrows.Any(e => e.ID == id);
         }
     }
 }
