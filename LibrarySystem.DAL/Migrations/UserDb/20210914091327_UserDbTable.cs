@@ -2,7 +2,7 @@
 
 namespace LibrarySystem.DAL.Migrations.UserDb
 {
-    public partial class userdbtable : Migration
+    public partial class UserDbTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

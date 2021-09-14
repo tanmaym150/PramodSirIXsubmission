@@ -51,8 +51,8 @@ namespace LibrarySystem.Views
         public IActionResult Create()
         {
           
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookId");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName");
+            ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookName");
             return View();
         }
 
@@ -69,8 +69,8 @@ namespace LibrarySystem.Views
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName",borrow.UserId);
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookName",borrow.BookId );
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName",borrow.ID);
+            ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookName",borrow.ID);
 
             return View(borrow);
         }

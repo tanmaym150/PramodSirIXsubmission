@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.DAL.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20210913100751_userdbtable")]
-    partial class userdbtable
+    [Migration("20210914091327_UserDbTable")]
+    partial class UserDbTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

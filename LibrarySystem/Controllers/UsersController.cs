@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.DAL.Data;
 using LibrarySystem.DAL.Data.Model;
+using LibrarySystem.ViewModel;
 using static LibrarySystem.DAL.Data.UserDbContext;
 
 namespace LibrarySystem.Views
@@ -36,12 +37,31 @@ namespace LibrarySystem.Views
 
             var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.UserId == id);
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Id == id);
+
+            //viewmodel
+            UserBook userBook = new UserBook()
+            {
+                BookName = book.BookName,
+                BookGenre = book.BookGenre,
+                UserId = user.UserId,
+                FirstName=user.FirstName,
+                LastName=user.LastName,
+                Email=user.Email,
+                Gender=user.Gender
+
+
+                    
+
+            };
+
+
             if (user == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(userBook);
         }
 
         // GET: Users/Create
