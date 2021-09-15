@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.DAL.Data;
 using LibrarySystem.DAL.Data.Model;
+using LibrarySystem.Services.Services;
 
 namespace LibrarySystem.Views
 {
     public class BooksController : Controller
     {
         private readonly UserDbContext _context;
+        private readonly IBookService _bookService;
+        
 
-        public BooksController(UserDbContext context)
+        public BooksController(UserDbContext context,IBookService bookService)
         {
             _context = context;
+            _bookService = bookService;
+            
         }
 
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Books.ToListAsync());
+            // return View(await _context.Books.ToListAsync());
+            return View(await _bookService.GetAllBooks());
         }
 
         // GET: Books/Details/5
@@ -33,8 +39,9 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var books = await _context.Books
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var books = await _context.Books
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var books = await _bookService.GetBookById(id);
             if (books == null)
             {
                 return NotFound();
@@ -54,13 +61,18 @@ namespace LibrarySystem.Views
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPostAttribute]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookName,BookGenre,BookAuthor")] Book books)
+        public async Task<IActionResult> Create([Bind("Id,BookName,BookGenre,BookAuthor")] Book books)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(books);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //_context.Add(books);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
+                bool result = await _bookService.CreateBook(books);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(books);
         }
@@ -73,7 +85,8 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var books = await _context.Books.FindAsync(id);
+            // var books = await _context.Books.FindAsync(id);
+            var books = await _bookService.GetBookById(id);
             if (books == null)
             {
                 return NotFound();
@@ -86,7 +99,7 @@ namespace LibrarySystem.Views
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BookId,BookName,BookGenre,BookAuthor")] Book books)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BookName,BookGenre,BookAuthor")] Book books)
         {
             if (id != books.Id)
             {
@@ -97,8 +110,9 @@ namespace LibrarySystem.Views
             {
                 try
                 {
-                    _context.Update(books);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(books);
+                    //await _context.SaveChangesAsync();
+                    await _bookService.Updatebook(books);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +138,9 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var books = await _context.Books
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var books = await _context.Books
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            var books = await _bookService.GetBookById(id);
             if (books == null)
             {
                 return NotFound();
@@ -139,15 +154,17 @@ namespace LibrarySystem.Views
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var books = await _context.Books.FindAsync(id);
-            _context.Books.Remove(books);
-            await _context.SaveChangesAsync();
+            //var books = await _context.Books.FindAsync(id);
+            //_context.Books.Remove(books);
+            //await _context.SaveChangesAsync();
+            await _bookService.DeleteBook(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool BooksExists(int id)
         {
-            return _context.Books.Any(e => e.Id == id);
+            //return _context.Books.Any(e => e.Id == id);
+            return _bookService.BookExist(id);
         }
     }
 }

@@ -7,24 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.DAL.Data;
 using LibrarySystem.DAL.Data.Model;
+using LibrarySystem.Services.Services;
 
 namespace LibrarySystem.Views
 {
     public class BorrowsController : Controller
     {
         private readonly UserDbContext _context;
+        private readonly IBorrowService _borrowService;
 
-        public BorrowsController(UserDbContext context)
+        public BorrowsController(UserDbContext context,IBorrowService borrowService)
         {
             _context = context;
+            _borrowService = borrowService;
         }
 
         // GET: Borrows
         public async Task<IActionResult> Index()
         {
-            var userDbContext = _context.Borrows.Include(b => b.Users).Include(b => b.Books);
+            // var userDbContext = _context.Borrows.Include(b => b.Users).Include(b => b.Books);
 
-            return View(await userDbContext.ToListAsync());
+            // return View(await userDbContext.ToListAsync());
+            return View(await _borrowService.GetAllBorrows());
         }
 
         // GET: Borrows/Details/5
@@ -34,10 +38,7 @@ namespace LibrarySystem.Views
             {
                 return NotFound();
             }
-
-            var borrow = await _context.Borrows
-                .Include(b => b.Users).Include(c=>c.Books)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var borrow = await _borrowService.GetBorrowById(id); 
              
             if (borrow == null)
             {
@@ -65,9 +66,14 @@ namespace LibrarySystem.Views
         {
             if (ModelState.IsValid)
             {
-                _context.Add(borrow);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool result = await _borrowService.CreateBorrow(borrow);
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                //_context.Add(borrow);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "FirstName",borrow.ID);
             ViewData["BookId"] = new SelectList(_context.Books, "Id", "BookName",borrow.ID);
@@ -109,8 +115,9 @@ namespace LibrarySystem.Views
             {
                 try
                 {
-                    _context.Update(borrow);
-                    await _context.SaveChangesAsync();
+                    //_context.Update(borrow);
+                    //await _context.SaveChangesAsync();
+                    await _borrowService.UpdateBorrow(borrow);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,9 +145,10 @@ namespace LibrarySystem.Views
                 return NotFound();
             }
 
-            var borrow = await _context.Borrows
-                .Include(b => b.Users)
-                .FirstOrDefaultAsync(m => m.ID == id);
+            //var borrow = await _context.Borrows
+            //    .Include(b => b.Users)
+            //    .FirstOrDefaultAsync(m => m.ID == id);
+            var borrow = await _borrowService.GetBorrowById(id);
             if (borrow == null)
             {
                 return NotFound();
@@ -162,7 +170,8 @@ namespace LibrarySystem.Views
 
         private bool BorrowExists(int id)
         {
-            return _context.Borrows.Any(e => e.ID == id);
+           // return _context.Borrows.Any(e => e.ID == id);
+           return _borrowService.BorrowExits(id);
         }
     }
 }
