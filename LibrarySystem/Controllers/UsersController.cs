@@ -29,9 +29,20 @@ namespace LibrarySystem.Views
         }
 
         // GET: Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchQuery)
         {
-            return View(await _userService.GetAllUser());
+            var users = new List<User>();
+            if (searchQuery == null)
+            {
+                users = await _userService.GetAllUser();
+            }
+            else
+            {
+                ViewData["searchQuery"] = searchQuery;
+                var result = await _userService.GetAllUser();
+                users = result.Where(a => a.FirstName.ToLower().Contains(searchQuery) || a.LastName.ToLower().Contains(searchQuery)).ToList();
+            }
+            return View(users.OrderBy(m=>m.UserId));
             
         }
 

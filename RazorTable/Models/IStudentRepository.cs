@@ -7,7 +7,7 @@ namespace MVCproject.Models
 {
    public interface IStudentRepository
     {
-        public List<Student> GetStudents();
+        public  List<Student> GetStudents();
 
         public Student GetStudentById(int id);
 
