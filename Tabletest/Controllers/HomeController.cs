@@ -27,13 +27,14 @@ namespace Tabletest.Controllers
 
             _logger = logger;
         }
-
+        string Name = "Tanmay";
         public IActionResult Index()
         {
 
 
             ViewData["employeees"] = employees;
             ViewBag.TotalEmployees = employees.Count();
+            ViewBag.Name = Name;
             return View(employees);
 
         }

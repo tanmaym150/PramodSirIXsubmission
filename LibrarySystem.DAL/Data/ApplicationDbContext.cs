@@ -43,7 +43,7 @@ namespace LibrarySystem.DAL.Data
                 if (!optionsBuilder.IsConfigured)
                 {
 
-                    optionsBuilder.UseSqlServer("Server=.;Database=LibrarySystem;Trusted_Connection=True;MultipleActiveResultSets=true");
+                    optionsBuilder.UseSqlServer("Server=LAPTOP-PTL9D25U\\SQLEXPRESS;Database=LibrarySystem;User Id=tanmay;Password=250830;");
                 }
             }
 

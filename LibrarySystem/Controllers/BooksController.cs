@@ -28,8 +28,10 @@ namespace LibrarySystem.Views
         public async Task<IActionResult> Index()
         {
             // return View(await _context.Books.ToListAsync());
+            ViewBag.Books =await _bookService.GetAllBooks();//passed data through viewbag
             return View(await _bookService.GetAllBooks());
-        }
+            
+        } 
 
         // GET: Books/Details/5
         public async Task<IActionResult> Details(int? id)
