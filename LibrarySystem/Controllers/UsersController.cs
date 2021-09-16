@@ -39,6 +39,7 @@ namespace LibrarySystem.Views
             else
             {
                 ViewData["searchQuery"] = searchQuery;
+                searchQuery = searchQuery.ToLower();
                 var result = await _userService.GetAllUser();
                 users = result.Where(a => a.FirstName.ToLower().Contains(searchQuery) || a.LastName.ToLower().Contains(searchQuery)).ToList();
             }
