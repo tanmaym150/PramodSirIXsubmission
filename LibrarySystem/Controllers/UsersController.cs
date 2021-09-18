@@ -29,11 +29,13 @@ namespace LibrarySystem.Views
         }
 
         // GET: Users
-        public async Task<IActionResult> Index(string searchQuery)
+        public async Task<IActionResult> Index(string searchQuery,int PageNumber=1)
         {
+            
             var users = new List<User>();
             if (searchQuery == null)
             {
+                
                 users = await _userService.GetAllUser();
             }
             else
@@ -41,8 +43,12 @@ namespace LibrarySystem.Views
                 ViewData["searchQuery"] = searchQuery;
                 searchQuery = searchQuery.ToLower();
                 var result = await _userService.GetAllUser();
+                
                 users = result.Where(a => a.FirstName.ToLower().Contains(searchQuery) || a.LastName.ToLower().Contains(searchQuery)).ToList();
             }
+            // users = users.Skip(5).Take(5).ToList();
+            ViewBag.TotalPages = Math.Ceiling(users.Count()/3.0);
+            users = users.Skip((PageNumber - 1) * 3).Take(3).ToList();
             return View(users.OrderBy(m=>m.UserId));
             
         }

@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibrarySystem.Services", "L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student", "Student\Student.csproj", "{E454F613-722B-4ECB-9F90-400234561CB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibrarySystemApi", "LibrarySystemApi\LibrarySystemApi.csproj", "{38769F79-E364-4F16-BC7F-AC5BB7A39D91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibrarySystemApi", "LibrarySystemApi\LibrarySystemApi.csproj", "{38769F79-E364-4F16-BC7F-AC5BB7A39D91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demoApiWithSwagger", "demoApiWithSwagger\demoApiWithSwagger.csproj", "{EE4FFB59-96F1-46C1-924C-EC9AB43B65B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "demoApiWithSwagger", "demoApiWithSwagger\demoApiWithSwagger.csproj", "{EE4FFB59-96F1-46C1-924C-EC9AB43B65B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demoJWT", "demoJWT\demoJWT.csproj", "{F202FA0F-F818-4314-8789-C801386FCC7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{EE4FFB59-96F1-46C1-924C-EC9AB43B65B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE4FFB59-96F1-46C1-924C-EC9AB43B65B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE4FFB59-96F1-46C1-924C-EC9AB43B65B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F202FA0F-F818-4314-8789-C801386FCC7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F202FA0F-F818-4314-8789-C801386FCC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F202FA0F-F818-4314-8789-C801386FCC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F202FA0F-F818-4314-8789-C801386FCC7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
