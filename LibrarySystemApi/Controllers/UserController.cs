@@ -6,11 +6,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibrarySystem.ViewModel;
 using LibrarySystem.DAL.Data.Model;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LibrarySystemApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
